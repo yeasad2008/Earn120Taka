@@ -79,55 +79,7 @@
       font-size: 14px;
       color: #333;
     }
-  </style>
-</head>
-<body>
-  <div id="info-box">
-    প্রতিটি এড দেখার জন্য পাবেন ১০ টাকা করে। ১২ টি এডস দেখে পাবেন ১২০ টাকা।
-  </div>
-  <div id="balance">মেইন ব্যালেন্স: 0 টাকা</div>
-  <button id="serviceButton">সার্ভিস নিন</button>
-  <div id="notification"></div>
   
-<div id="wait-instruction">এডস Show করার আগে ব্যাক করলে টাকা পাবেন না। তাই ক্লিক করে ৩ সেকেন্ড অপেক্ষা করুন। </div>
-
-
-  <div class="ads-container" id="adsContainer"></div>
-  <div id="message"></div>
-
-  <script>
-    let balance = 0;
-    const adsContainer = document.getElementById("adsContainer");
-    const balanceDisplay = document.getElementById("balance");
-    const message = document.getElementById("message");
-    const notification = document.getElementById("notification");
-    const serviceButton = document.getElementById("serviceButton");
-
-    const watchedAds = new Set();
-    const adLinks = [
-      "https://otieu.com/4/9388402", "https://otieu.com/4/9464454", "https://example.com/ad3",
-      "https://otieu.com/4/9403309", "      border: 1px solid #ccc;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: transform 0.3s ease, background-color 0.3s ease;
-    }
-    .ad:hover {
-      transform: scale(1.05);
-      background-color: #e1f5ff;
-    }
-    .ad.completed {
-      background-color: #d4edda;
-      color: #155724;
-    }
-    #message {
-      margin-top: 10px;
-      color: red;
-    }
-    #wait-instruction {
-      margin-top: 15px;
-      font-size: 14px;
-      color: #333;
-    }
   </style>
 </head>
 <body>
