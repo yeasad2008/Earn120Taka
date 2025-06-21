@@ -1,0 +1,171 @@
+
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Earn by Watching Ads</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to bottom right, #f0f9ff, #cfe0ff);
+      margin: 0;
+      padding: 20px;
+      text-align: center;
+    }
+    #info-box {
+      background-color: #fff;
+      border: 1px solid #ccc;
+      padding: 10px;
+      margin: 10px auto;
+      border-radius: 5px;
+      max-width: 400px;
+      font-size: 14px;
+      color: #111;
+    }
+    #balance {
+      font-size: 1.2em;
+      margin: 10px;
+      color: #0a8917;
+    }
+    #serviceButton {
+      margin-top: 10px;
+      padding: 10px 20px;
+      font-size: 1em;
+      background-color: #0a8917;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    #notification {
+      display: none;
+      background-color: #d4edda;
+      color: #155724;
+      border: 1px solid #c3e6cb;
+      padding: 10px;
+      margin: 10px auto;
+      width: fit-content;
+      border-radius: 5px;
+    }
+    .ads-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 15px;
+      margin-top: 20px;
+    }
+    .ad {
+      background: #ffffff;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: transform 0.3s ease, background-color 0.3s ease;
+    }
+    .ad:hover {
+      transform: scale(1.05);
+      background-color: #e1f5ff;
+    }
+    .ad.completed {
+      background-color: #d4edda;
+      color: #155724;
+    }
+    #message {
+      margin-top: 10px;
+      color: red;
+    }
+    #wait-instruction {
+      margin-top: 15px;
+      font-size: 14px;
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+  <div id="info-box">
+    প্রতিটি এড দেখার জন্য পাবেন ১০ টাকা করে। ১২ টি এডস দেখে পাবেন ১২০ টাকা।
+  </div>
+  <div id="balance">মেইন ব্যালেন্স: 0 টাকা</div>
+  <button id="serviceButton">সার্ভিস নিন</button>
+  <div id="notification"></div>
+  
+<div id="wait-instruction">প্রতিটি টাস্কে ৪ সেকেন্ড অপেক্ষা করতে হবে, না হলে টাস্ক কমপ্লিট হবে না এবং আপনি ১০ টাকা পাবেন না।</div>
+
+
+  <div class="ads-container" id="adsContainer"></div>
+  <div id="message"></div>
+
+  <script>
+    let balance = 0;
+    const adsContainer = document.getElementById("adsContainer");
+    const balanceDisplay = document.getElementById("balance");
+    const message = document.getElementById("message");
+    const notification = document.getElementById("notification");
+    const serviceButton = document.getElementById("serviceButton");
+
+    const watchedAds = new Set();
+    const adLinks = [
+      "https://example.com/ad1", "https://example.com/ad2", "https://example.com/ad3",
+      "https://example.com/ad4", "https://example.com/ad5", "https://example.com/ad6",
+      "https://example.com/ad7", "https://example.com/ad8", "https://example.com/ad9",
+      "https://example.com/ad10", "https://example.com/ad11", "https://example.com/ad12"
+    ];
+
+    for (let i = 0; i < 12; i++) {
+      const ad = document.createElement("div");
+      ad.className = "ad";
+      ad.textContent = `Ad ${i + 1}`;
+      ad.onclick = () => handleAdClick(ad, i);
+      adsContainer.appendChild(ad);
+    }
+
+    function handleAdClick(ad, index) {
+      const openTime = Date.now();
+      window.open(adLinks[index], "_blank");
+
+      setTimeout(() => {
+        const viewDuration = Date.now() - openTime;
+        if (viewDuration >= 4000 && !watchedAds.has(index)) {
+          watchedAds.add(index);
+          balance += 10;
+          balanceDisplay.textContent = `মেইন ব্যালেন্স: ${balance} টাকা`;
+          ad.classList.add("completed");
+          showNotification("Congratulation! You have earned 10 taka");
+        } else if (viewDuration < 4000) {
+          message.textContent = "টাস্ক কমপ্লিট হয়নি, দয়া করে ৪ সেকেন্ড এডস দেখুন।";
+        }
+      }, 4000);
+    }
+
+    function showNotification(text) {
+      notification.textContent = text;
+      notification.style.display = "block";
+      setTimeout(() => {
+        notification.style.display = "none";
+      }, 4000);
+    }
+
+    
+serviceButton.onclick = () => {
+  if (balance >= 120) {
+    window.location.href = "https://t.me/yourTelegramChannel";
+  } else {
+    message.textContent = "সার্ভিস নেওয়ার জন্য আপনার একাউন্টে পর্যাপ্ত টাকা নেই। ১২০ টাকার প্রয়োজন।";
+    const popup = document.getElementById("popup-warning");
+    popup.style.display = "block";
+    setTimeout(() => {
+      popup.style.display = "none";
+    }, 4000);
+  }
+};
+
+  </script>
+
+<div id="popup-warning" style="display: none; position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+  background-color: #ffcccc; color: #b30000; padding: 15px 20px; border: 1px solid #ff0000;
+  border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.3); z-index: 9999; font-size: 15px;">
+  আপনি ৪ সেকেন্ডের আগে ফিরে আসার কারণে টাস্ক কমপ্লিট হয়নি। ইনকমপ্লিট টাস্ক!
+</div>
+
+</body>
+</html>
